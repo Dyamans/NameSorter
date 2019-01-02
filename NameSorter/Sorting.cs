@@ -7,24 +7,29 @@ using System.Threading.Tasks;
 using System.IO;
 
 namespace NameSorter
-{
+{   
 
     public interface ISorter
-    {
+    {        
+        //read data from a file
         List<object> ReadData(string fileName);
+        //write data to a file
         void WriteData(string file, List<object> sortedList);
+        //validate data
         List<object> ValidateData(List<object> listData);
+        //show data to console
         void ShowData(List<object> listData);               
     }
 
 
     /*
-       The main Sorting class
+       The main Sorting class implements ISorter.
        contains methods to read, write a .txt file 
        then to display the person data to console.
    */
     public class Sorting : ISorter
     {
+        private string errorMsg = "Something went wrong";
 
         static void Main(string[] args)
         {
@@ -65,65 +70,86 @@ namespace NameSorter
         public List<object> ValidateData(List<object> personList)
         {
             List<Object> namesList = Utilities.GetListObject();
-            try
-            {
-                for (int i = 0; i < personList.Count; i++)
-                {
-                    string fullName = (string)personList[i];
-                    string[] fullNames = Utilities.SplitWhitespace(fullName);
 
-                    if (fullNames.Length > 0)
+            if (personList.Count > 0)
+            {                
+                try
+                {
+                    for (int i = 0; i < personList.Count; i++)
                     {
-                        if (fullNames.Length.Equals(2))
+                        string fullName = (string)personList[i];
+                        string[] fullNames = Utilities.SplitWhitespace(fullName);
+
+                        if (fullNames.Length > 0)
                         {
-                            namesList.Add(new Person(fullNames[0], null, null, fullNames[1]));
+                            if (fullNames.Length.Equals(2))
+                            {
+                                namesList.Add(new Person(fullNames[0], null, null, fullNames[1]));
+                            }
+                            else if (fullNames.Length.Equals(3))
+                            {
+                                namesList.Add(new Person(fullNames[0], fullNames[1], null, fullNames[2]));
+                            }
+                            else if (fullNames.Length.Equals(4))
+                            {
+                                namesList.Add(new Person(fullNames[0], fullNames[1], fullNames[2], fullNames[3]));
+                            }
+                            else
+                            {
+                                Console.WriteLine("This program does not support more than 4 given names");
+                            }
                         }
-                        else if (fullNames.Length.Equals(3))
+                        else
                         {
-                            namesList.Add(new Person(fullNames[0], fullNames[1], null, fullNames[2]));
+                            Console.WriteLine(errorMsg);
+                            namesList.Add(errorMsg);
                         }
-                        else if (fullNames.Length.Equals(4))
-                        {
-                            namesList.Add(new Person(fullNames[0], fullNames[1], fullNames[2], fullNames[3]));
-                        }
-                    }
-                    else
-                    {
-                        return null;
                     }
                 }
+                catch (Exception e)
+                {
+                    // Let the user know what went wrong.
+                    Console.WriteLine("Something went wrong:");
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (Exception e)
+            else
             {
-                // Let the user know what went wrong.
-                Console.WriteLine("Something went wrong:");
-                Console.WriteLine(e.Message);
+                Console.WriteLine(errorMsg);
+                namesList.Add(errorMsg);
             }
             return namesList;
         }
 
-       //sort and write the data to a.txt file.
+       //sort and write the data to a .txt file.
         public void WriteData(string file, List<object> sortedList)
         {
-            try
+            if (sortedList.Count > 0)
             {
-                using (StreamWriter sw = new StreamWriter(file))
+                sortedList.Sort();
+                try
                 {
-                    sortedList.Sort();
-                    foreach (object obj in sortedList)
+                    using (StreamWriter sw = new StreamWriter(file))
                     {
-                        Person emp = (Person)obj;
-                        sw.WriteLine(emp.ToString());
+
+                        foreach (object obj in sortedList)
+                        {
+                            Person emp = (Person)obj;
+                            sw.WriteLine(emp.ToString());
+                        }
                     }
                 }
-            }
-            catch (Exception e)
+                catch (Exception e)
+                {
+                    // Let the user know what went wrong.
+                    Console.WriteLine("The file could not be written:");
+                    Console.WriteLine(e.Message);
+                }
+            }else
             {
                 // Let the user know what went wrong.
-                Console.WriteLine("The file could not be written:");
-                Console.WriteLine(e.Message);
-            }
-            
+                Console.WriteLine(errorMsg);                
+            }            
         }       
 
         // display the person data to console.        
@@ -139,7 +165,7 @@ namespace NameSorter
             }catch (Exception e)
             {
                 // Let the user know what went wrong.
-                Console.WriteLine("Some thing went wrong:");
+                Console.WriteLine(errorMsg+" :");
                 Console.WriteLine(e.Message);
             }
         }
