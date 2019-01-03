@@ -1,8 +1,8 @@
 language: csharp
 solution: NameSorter.sln
 install:
-- nuget restore NameSorter.sln
-- nuget install NUnit.Runners -Version 3.7.0 -OutputDirectory testrunner
+ - sudo apt-get install nunit-console
+ - nuget restore NameSorter.sln
 script:
-- xbuild /p:Configuration=Release NameSorter.sln
-- mono ./testrunner/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe ./NameSorterTests/bin/Debug/NameSorterTests.dll
+- xbuild /p:Configuration=DebugNUnit NameSorter.sln
+- nunit-console ./NameSorterTests/bin/Debug/NameSorterTests.dll
