@@ -4,5 +4,5 @@ install:
  - sudo apt-get install nunit-console
  - nuget restore NameSorter.sln
 script:
-- xbuild NameSorter.sln
+- xbuild /p:Configuration=Release NameSorter.sln
 - nunit-console ./NameSorterTests/bin/Debug/NameSorterTests.dll
