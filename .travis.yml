@@ -1,7 +1,8 @@
 language: csharp
 solution: NameSorter.sln
 install:
-- travis_retry nuget restore -source "https://www.nuget.org/api/v2" NameSorter.sln
+- nuget restore NameSorter.sln
+- nuget install NUnit.Runners -Version 3.7.0 -OutputDirectory testrunner
 script:
-- xbuild NameSorter.sln
-- mono ./NameSorter/packages/xunit.runner.console*/tools/xunit.console.exe ./NameSorterTests/bin/Debug/NameSorterTests.dll
+- xbuild /p:Configuration=Release NameSorter.sln
+- mono ./testrunner/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe ./NameSorterTests/bin/Debug/NameSorterTests.dll
