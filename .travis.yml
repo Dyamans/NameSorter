@@ -5,4 +5,4 @@ install:
  - nuget restore NameSorter.sln
 script:
 - xbuild /p:Configuration=Release NameSorter.sln
-- nunit-console NameSorterTests/bin/Debug/NameSorterTests.dll
+- nunit-console ./NameSorterTests/bin/Release/NameSorterTests.dll
