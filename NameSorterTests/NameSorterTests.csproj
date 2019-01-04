@@ -67,6 +67,11 @@
       <Name>NameSorter</Name>
     </ProjectReference>
   </ItemGroup>
+   <ItemGroup>
+      <EmbeddedResource Include="unsorted-names-list.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" /> 
 </Project>

@@ -2,6 +2,7 @@
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 
 
@@ -22,6 +23,7 @@ namespace NameSorterTests
             sorter = new NameSorter.Sorting();
             unsortedFile = "/unsorted-names-list.txt";
             sortedFile = "/sorted-names-list.txt";
+            //File.OpenRead(@"C:\ftp\inbox\test.txt");
             getPath = System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
         }
 
